@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - CRUD Table</title>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'><link rel="stylesheet" href="./style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<html>
+  <body>
+    <div class="container crud-table" ng-app="myApp" ng-controller="namesCtrl">
+      <div class="clearfix">
+        <div class="form-inline pull-left">
+          <button class="btn btn-success" ng-click="addUser()"><span class="glyphicon glyphicon-plus"> </span>Agregar Inventario</button>
+        </div>
+        <div class="form-inline pull-right">Buscar por Objeto: 
+          <div class="form-group">
+            <input class="form-control" type="text" ng-model="searchName" placeholder="Escriba aqui el Objeto"/>
+          </div>
+        </div>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th ng-click="orderBy('name')">Objeto</th>
+            <th ng-click="orderBy('country')">Fecha de Registro</th>
+            <th ng-click="orderBy('salary')">Ubicacion</th>
+            <th ng-click="orderBy('email')">Usuario</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          <tr ng-repeat="user in resultUser = (users | filter: {'name': searchName}) | orderBy: order">
+            <td>{{user.Objeto}} </td>
+            <td>{{user.FechaR}} </td>
+            <td>{{user.Ubicacion}} </td>
+            <td>{{ user.Usuario }}</td>
+            <td>
+              <button class="btn btn-primary" ng-click="editUser(user)">Editar</button>
+            </td>
+            <td> 
+              <button class="btn btn-danger" ng-click="deleteUser(user)">Borrar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="crude-form__wrapper" ng-show="triggerForm">
+        <h3 ng-show="editForm">Editar Usuario</h3>
+        <h3 ng-show="addForm">Agregar Inventario</h3>
+        <form name="userForm" ng-model="userForm">
+          <div class="form-group">
+            <label for="name">Objeto</label>
+            <input class="form-control" id="Objeto" type="text" name="name" ng-model="crudFormName" placeholder="Editar Nombre" required="required"/>
+            <div class="form-alert alert alert-danger" ng-show="userForm.name.$invalid &amp;&amp; userForm.name.$touched">Please input name</div>
+          </div>
+          <div class="form-group">
+            <label for="country">Fecha de registro</label>
+            <input class="form-control" id="FechaR" type="text" name="Fecha" placeholder="" required="required" disabled/>
+            <div class="form-alert alert alert-danger" ng-show="userForm.country.$invalid &amp;&amp; userForm.country.$touched">Please input user country</div>
+          </div>
+          <div class="form-group">
+            <label for="salary">Ubicacion</label>
+            <input class="form-control" id="Ubicacion" type="text" name="Ubicacion"  placeholder="" required="required" disabled/>
+            <div class="form-alert alert alert-danger" ng-show="userForm.salary.$invalid &amp;&amp; userForm.salary.$touched"><span ng-show="userForm.salary.$error.number">Please input valid number</span><span ng-show="userForm.salary.$error.min">Please input salary greater than 1</span><span ng-show="userForm.salary.$error.required">Please input salary</span></div>
+          </div>
+          <div class="form-group">
+            <label for="email">Usuario</label>
+            <input class="form-control" id="Usuario" type="email" name="email" ng-model="crudFormEmail" ng-change="checkEmail(editUserId)" placeholder="" required="required" min="1" />
+          </div>
+          <div class="form-alert alert alert-danger" ng-show="userForm.email.$invalid &amp;&amp; userForm.email.$touched"><span ng-show="userForm.email.$error.email">Please input valid email</span><span ng-show="userForm.email.$error.required">Please input email	</span></div>
+          <div class="form-alert alert alert-danger" ng-show="emailExisted">  This email has been registerd by other user</div>
+          <button class="btn btn-primary" id="guardar"> <i class="glyphicon glyphicon-pencil"> </i>Guardar Cambios </button>
+          <button class="btn btn-primary" ng-click="triggerForm = false">
+             Cancelar						</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
+  <!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js'></script>
+  <script  src="./script.js"></script>
+
+</body>
+</html>
